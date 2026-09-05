@@ -190,23 +190,6 @@ body {
 }
 
 
-/* SMALL PAGE MARK */
-
-.hero-mark {
-    position: absolute;
-
-    right: 6vw;
-    bottom: 45px;
-
-    color: #465048;
-
-    font-size: 10px;
-    letter-spacing: 0.18em;
-
-    z-index: 2;
-}
-
-
 /* CONTACT */
 
 .contact {
@@ -262,6 +245,8 @@ body {
 @media (max-width: 700px) {
 
     .navbar {
+        height: 70px;
+
         padding: 0 7vw;
     }
 
@@ -272,13 +257,19 @@ body {
     .hero {
         min-height: 100vh;
 
-        padding: 130px 7vw 80px;
+        padding: 95px 7vw 70px;
 
         align-items: center;
     }
 
+    .hero-content {
+        width: 100%;
+    }
+
     .hero-text {
-        gap: 12px;
+        gap: 8px;
+
+        max-width: 100%;
     }
 
     .brand-word {
@@ -286,9 +277,13 @@ body {
     }
 
     .main-copy {
-        font-size: clamp(38px, 11vw, 58px);
+        width: 100%;
 
-        line-height: 1;
+        font-size: clamp(32px, 9vw, 52px);
+
+        line-height: 1.02;
+
+        letter-spacing: -0.045em;
     }
 
     .hero-mark {
