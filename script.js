@@ -1,18 +1,14 @@
-```javascript
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* CONTACT FORM */
-
     const emailToggle = document.getElementById("email-toggle");
     const contactForm = document.getElementById("contact-form");
 
     if (emailToggle && contactForm) {
-        emailToggle.addEventListener("click", function (event) {
+        emailToggle.addEventListener("click", (event) => {
             event.preventDefault();
 
             contactForm.hidden = !contactForm.hidden;
 
-            this.setAttribute(
+            emailToggle.setAttribute(
                 "aria-expanded",
                 String(!contactForm.hidden)
             );
@@ -25,9 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
-
-    /* CONTACT FORM SUBMISSION */
 
     const sendButton = document.getElementById("send-button");
     const formStatus = document.getElementById("form-status");
@@ -44,9 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const response = await fetch(contactForm.action, {
                     method: "POST",
                     body: new FormData(contactForm),
-                    headers: {
-                        Accept: "application/json"
-                    }
+                    headers: { Accept: "application/json" }
                 });
 
                 if (response.ok) {
@@ -65,6 +56,4 @@ document.addEventListener("DOMContentLoaded", () => {
             sendButton.textContent = "Send Message ↗";
         });
     }
-
 });
-```
