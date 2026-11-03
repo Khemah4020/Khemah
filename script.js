@@ -1,32 +1,62 @@
-const menuButton = document.querySelector(".menu-button");
-const navLinks = document.querySelector(".nav-links");
+```javascript
+/* CONTACT FORM */
 
-menuButton.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-});
+const emailToggle = document.getElementById("email-toggle");
+const contactForm = document.getElementById("contact-form");
 
-document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
+if (emailToggle && contactForm) {
+    emailToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const isHidden = contactForm.hidden;
+
+        contactForm.hidden = !isHidden;
+        emailToggle.setAttribute("aria-expanded", String(isHidden));
+
+        if (isHidden) {
+            contactForm.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
     });
-});
+}
 
 
-/* LIQUID MOUSE EFFECT */
+/* CONTACT FORM SUBMISSION */
 
-const exploreButton = document.querySelector(".main-button");
+const sendButton = document.getElementById("send-button");
+const formStatus = document.getElementById("form-status");
 
-exploreButton.addEventListener("mousemove", (event) => {
-    const rect = exploreButton.getBoundingClientRect();
+if (contactForm && sendButton && formStatus) {
+    contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+        sendButton.disabled = true;
+        sendButton.textContent = "Sending...";
+        formStatus.textContent = "";
 
-    exploreButton.style.setProperty("--mouse-x", `${x}px`);
-    exploreButton.style.setProperty("--mouse-y", `${y}px`);
-});
+        try {
+            const response = await fetch(contactForm.action, {
+                method: "POST",
+                body: new FormData(contactForm),
+                headers: {
+                    Accept: "application/json"
+                }
+            });
 
-exploreButton.addEventListener("mouseleave", () => {
-    exploreButton.style.setProperty("--mouse-x", "50%");
-    exploreButton.style.setProperty("--mouse-y", "50%");
-});
+            if (response.ok) {
+                formStatus.textContent = "Message sent successfully.";
+                contactForm.reset();
+            } else {
+                formStatus.textContent = "Something went wrong. Please try again.";
+            }
+        } catch (error) {
+            formStatus.textContent = "Connection error. Please try again.";
+        }
+
+        sendButton.disabled = false;
+        sendButton.textContent = "Send Message ↗";
+    });
+}
+```
