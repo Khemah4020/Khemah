@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +8,15 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+}
+
+:root {
+    --black: #070907;
+    --dark: #0b100c;
+    --green: #43e66b;
+    --text: #f2f5ef;
+    --muted: #8d968e;
+    --border: #1b251d;
 }
 
 body {
@@ -24,60 +34,50 @@ body {
         );
 
     color: #f2f5ef;
-
     font-family: Arial, sans-serif;
-
     line-height: 1.5;
-
     overflow-x: hidden;
 }
 
-:root {
-    --black: #070907;
-    --dark: #0b100c;
-    --green: #43e66b;
-    --text: #f2f5ef;
-    --muted: #8d968e;
-    --border: #1b251d;
+/* GREEN TEXT SELECTION */
+
+::selection {
+    background: #43e66b;
+    color: #070907;
 }
 
+::-moz-selection {
+    background: #43e66b;
+    color: #070907;
+}
 
 /* NAVBAR */
 
 .navbar {
     position: fixed;
-
     top: 0;
     left: 0;
-
     width: 100%;
     height: 82px;
-
     padding: 0 6vw;
 
     display: flex;
     align-items: center;
 
     background: rgba(7, 12, 8, 0.78);
-
     backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
     border-bottom: 1px solid rgba(67, 230, 107, 0.10);
-
     z-index: 100;
 }
 
 .logo {
     color: #294a31;
-
     text-decoration: none;
-
     font-family: "Trebuchet MS", Arial, sans-serif;
-
     font-size: 23px;
-
     font-weight: 800;
-
     letter-spacing: 0.12em;
 
     text-shadow:
@@ -93,24 +93,18 @@ body {
 
 .logo span {
     color: #3f9f50;
-
     font-weight: 900;
 }
-
 
 /* HERO */
 
 .hero {
     min-height: 100vh;
-
     position: relative;
-
     display: flex;
-
     align-items: center;
 
     padding: 150px 10vw 100px;
-
     overflow: hidden;
 
     background:
@@ -123,27 +117,20 @@ body {
 
 .hero-content {
     position: relative;
-
     z-index: 2;
-
     width: 100%;
-
     max-width: 1000px;
 }
 
 .hero-text {
     display: flex;
-
     flex-direction: column;
-
-    gap: 15px;
-
+    gap: 18px;
     max-width: 950px;
 }
 
 .brand-word {
     display: inline-block;
-
     width: fit-content;
 
     background: linear-gradient(
@@ -156,34 +143,31 @@ body {
 
     -webkit-background-clip: text;
     background-clip: text;
-
     color: transparent;
 
     font-size: clamp(23px, 2.7vw, 36px);
-
     font-weight: 700;
-
     letter-spacing: -0.035em;
 
     filter: drop-shadow(
         0 0 12px rgba(67, 230, 107, 0.04)
     );
+
+    /* Khemah cannot be selected */
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .main-copy {
     color: #e9eee9;
 
-    font-size: clamp(40px, 5.4vw, 78px);
-
-    line-height: 1;
-
+    font-size: clamp(40px, 4.8vw, 70px);
+    line-height: 1.08;
     letter-spacing: -0.06em;
-
     font-weight: 700;
 }
 
-
-/* GLOW */
+/* BACKGROUND GLOW */
 
 .hero-glow {
     position: absolute;
@@ -195,14 +179,14 @@ body {
     top: 120px;
 
     border-radius: 50%;
-
     background: #20d94e;
 
     filter: blur(190px);
-
     opacity: 0.10;
 
     pointer-events: none;
+
+    animation: glowDrift 13s ease-in-out infinite alternate;
 }
 
 .hero-glow-secondary {
@@ -215,26 +199,80 @@ body {
     bottom: -120px;
 
     border-radius: 50%;
-
     background: #163c20;
 
     filter: blur(150px);
-
     opacity: 0.22;
 
     pointer-events: none;
+
+    animation: glowDriftReverse 16s ease-in-out infinite alternate;
 }
 
+@keyframes glowDrift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(-35px, 25px) scale(1.12);
+    }
+}
+
+@keyframes glowDriftReverse {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(30px, -25px) scale(1.10);
+    }
+}
+
+/* MOUSE GREEN GLOW */
+
+.mouse-glow {
+    position: fixed;
+
+    width: 100px;
+    height: 100px;
+
+    left: 0;
+    top: 0;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(67, 230, 107, 0.20) 0%,
+        rgba(67, 230, 107, 0.08) 40%,
+        transparent 72%
+    );
+
+    filter: blur(8px);
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
+    z-index: 1;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mouse-glow.visible {
+    opacity: 1;
+}
 
 /* CONTACT */
 
 .contact {
-    width: 100%;
+    position: relative;
+    z-index: 2;
 
+    width: 100%;
     padding: 35px 10vw;
 
     background: rgba(8, 15, 9, 0.92);
-
     border-top: 1px solid var(--border);
 }
 
@@ -242,26 +280,38 @@ body {
     margin-bottom: 15px;
 
     color: #69736b;
-
     font-size: 10px;
-
     font-weight: 600;
-
     letter-spacing: 0.22em;
 }
 
+/* CONTACT EMAIL BUBBLE */
+
 .email {
     display: inline-flex;
+    align-items: center;
+    gap: 16px;
 
-    gap: 20px;
+    padding: 12px 19px;
 
     color: #9cdaa7;
-
     text-decoration: none;
-
     font-size: 14px;
 
-    transition: 0.25s ease;
+    background: rgba(25, 45, 29, 0.48);
+    border: 1px solid rgba(67, 230, 107, 0.16);
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.12),
+        inset 0 0 14px rgba(67, 230, 107, 0.025);
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
 
 .email span {
@@ -270,12 +320,19 @@ body {
 
 .email:hover {
     color: var(--green);
+    background: rgba(35, 65, 41, 0.58);
+    border-color: rgba(67, 230, 107, 0.35);
+
+    box-shadow:
+        0 5px 25px rgba(32, 217, 78, 0.07),
+        inset 0 0 18px rgba(67, 230, 107, 0.04);
+
+    transform: translateY(-2px);
 }
 
 .email:hover span {
     transform: translate(4px, -4px);
 }
-
 
 /* MOBILE */
 
@@ -283,25 +340,20 @@ body {
 
     .navbar {
         height: 70px;
-
         padding: 0 7vw;
 
         background: rgba(8, 14, 9, 0.88);
-
         border-bottom: 1px solid rgba(67, 230, 107, 0.13);
     }
 
     .logo {
         font-size: 20px;
-
         color: #2d5735;
     }
 
     .hero {
         min-height: 100vh;
-
         padding: 115px 7vw 70px;
-
         align-items: flex-start;
 
         background:
@@ -323,8 +375,7 @@ body {
     }
 
     .hero-text {
-        gap: 9px;
-
+        gap: 12px;
         max-width: 100%;
     }
 
@@ -341,19 +392,15 @@ body {
 
         -webkit-background-clip: text;
         background-clip: text;
-
         color: transparent;
     }
 
     .main-copy {
         width: 100%;
-
         max-width: 100%;
 
-        font-size: clamp(34px, 9vw, 52px);
-
-        line-height: 1.04;
-
+        font-size: clamp(30px, 7.5vw, 44px);
+        line-height: 1.08;
         letter-spacing: -0.045em;
     }
 
@@ -379,5 +426,29 @@ body {
 
     .contact {
         padding: 30px 7vw;
+    }
+
+    .email {
+        padding: 11px 15px;
+        gap: 12px;
+        font-size: 13px;
+    }
+
+    /* No mouse effect on touch screens */
+    .mouse-glow {
+        display: none;
+    }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-glow,
+    .hero-glow-secondary {
+        animation: none;
+    }
+
+    html {
+        scroll-behavior: auto;
     }
 }
