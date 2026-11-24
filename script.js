@@ -1,4 +1,8 @@
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    /* CONTACT FORM */
+
     const emailToggle = document.getElementById("email-toggle");
     const contactForm = document.getElementById("contact-form");
 
@@ -22,6 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    /* FORM SUBMISSION */
+
     const sendButton = document.getElementById("send-button");
     const formStatus = document.getElementById("form-status");
 
@@ -37,16 +43,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 const response = await fetch(contactForm.action, {
                     method: "POST",
                     body: new FormData(contactForm),
-                    headers: { Accept: "application/json" }
+                    headers: {
+                        Accept: "application/json"
+                    }
                 });
 
                 if (response.ok) {
-                    formStatus.textContent = "Message sent successfully.";
+                    formStatus.textContent =
+                        "Message sent successfully.";
+
                     contactForm.reset();
                 } else {
                     formStatus.textContent =
                         "Something went wrong. Please try again.";
                 }
+
             } catch (error) {
                 formStatus.textContent =
                     "Connection error. Please try again.";
@@ -56,4 +67,33 @@ document.addEventListener("DOMContentLoaded", () => {
             sendButton.textContent = "Send Message ↗";
         });
     }
+
+    /* GREEN MOUSE GLOW */
+
+    const canUseMouse = window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+    ).matches;
+
+    if (canUseMouse) {
+        const mouseGlow = document.createElement("div");
+
+        mouseGlow.className = "mouse-glow";
+        document.body.appendChild(mouseGlow);
+
+        window.addEventListener("pointermove", (event) => {
+            mouseGlow.style.left = `${event.clientX}px`;
+            mouseGlow.style.top = `${event.clientY}px`;
+
+            mouseGlow.classList.add("visible");
+        });
+
+        document.addEventListener("mouseleave", () => {
+            mouseGlow.classList.remove("visible");
+        });
+
+        document.addEventListener("mouseenter", () => {
+            mouseGlow.classList.add("visible");
+        });
+    }
+
 });
